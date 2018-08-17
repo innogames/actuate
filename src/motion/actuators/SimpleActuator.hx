@@ -485,6 +485,7 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 			if (!initialized) {
 				
 				initialize ();
+				start();
 				
 			}
 			

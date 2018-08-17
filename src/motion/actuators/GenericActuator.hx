@@ -17,6 +17,8 @@ class GenericActuator<T> implements IGenericActuator {
 	private var _autoVisible:Bool;
 	private var _delay:Float;
 	private var _ease:IEasing;
+	private var _onStart:Dynamic;
+	private var _onStartParams:Array <Dynamic>;
 	private var _onComplete:Dynamic;
 	private var _onCompleteParams:Array <Dynamic>;
 	private var _onRepeat:Dynamic;
@@ -135,6 +137,17 @@ class GenericActuator<T> implements IGenericActuator {
 	}
 	
 	
+	private function start ():Void {
+		
+		if (_onStart != null) {
+			
+			callMethod (_onStart, _onStartParams);
+			
+		}
+		
+	}
+	
+	
 	private function change ():Void {
 		
 		if (_onUpdate != null) {
@@ -212,6 +225,31 @@ class GenericActuator<T> implements IGenericActuator {
 	private function move ():Void {
 		
 		
+		
+	}
+	
+	
+	/**
+	 * Defines a function which will be called when the tween starts
+	 * @param	handler		The function you would like to be called
+	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
+	 * @return		The current actuator instance
+	 */
+	public function onStart (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
+		
+		_onStart = handler;
+		
+		if (parameters == null) {
+			
+			_onStartParams = [];
+			
+		} else {
+			
+			_onStartParams = parameters;
+			
+		}
+		
+		return this;
 		
 	}
 	
@@ -337,34 +375,6 @@ class GenericActuator<T> implements IGenericActuator {
 		} else {
 			
 			_onResumeParams = parameters;
-			
-		}
-		
-		return this;
-		
-	}
-
-	/**
-	 * Defines a function which will be called when the tween starts
-	 * @param	handler		The function you would like to be called
-	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
-	 * @return		The current actuator instance
-	 */
-	public function onStart (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
-		
-		if (handler == null) {
-			
-			return this;
-			
-		}
-		
-		if (_delay == 0) {
-			
-			callMethod(handler, parameters);
-			
-		} else {
-			
-			Actuate.timer(_delay).onComplete(handler, parameters);
 			
 		}
 		
