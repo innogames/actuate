@@ -343,6 +343,34 @@ class GenericActuator<T> implements IGenericActuator {
 		return this;
 		
 	}
+
+	/**
+	 * Defines a function which will be called when the tween starts
+	 * @param	handler		The function you would like to be called
+	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
+	 * @return		The current actuator instance
+	 */
+	public function onStart (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
+		
+		if (handler == null) {
+			
+			return this;
+			
+		}
+		
+		if (_delay == 0) {
+			
+			callMethod(handler, parameters);
+			
+		} else {
+			
+			Actuate.timer(_delay).onComplete(handler, parameters);
+			
+		}
+		
+		return this;
+		
+	}
 	
 	
 	private function pause ():Void {
