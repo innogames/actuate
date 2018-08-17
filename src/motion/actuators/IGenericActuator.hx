@@ -44,6 +44,14 @@ interface IGenericActuator {
 	public function onComplete (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
 	
 	/**
+	 * Defines a function which will be called when the tween is paused
+	 * @param	handler		The function you would like to be called
+	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
+	 * @return		The current actuator instance
+	 */
+	public function onPause (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
+	
+	/**
 	 * Defines a function which will be called when the tween repeats
 	 * @param	handler		The function you would like to be called
 	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
@@ -52,13 +60,13 @@ interface IGenericActuator {
 	public function onRepeat (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
 	
 	/**
-	 * Defines a function which will be called when the tween updates
+	 * Defines a function which will be called when the tween resumed after pause
 	 * @param	handler		The function you would like to be called
 	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
 	 * @return		The current actuator instance
 	 */
-	public function onUpdate (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
-
+	public function onResume (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
+	
 	/**
 	 * Defines a function which will be called when the tween starts
 	 * @param	handler		The function you would like to be called
@@ -66,6 +74,14 @@ interface IGenericActuator {
 	 * @return		The current actuator instance
 	 */
 	public function onStart (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
+	
+	/**
+	 * Defines a function which will be called when the tween updates
+	 * @param	handler		The function you would like to be called
+	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
+	 * @return		The current actuator instance
+	 */
+	public function onUpdate (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
 	
 	/**
 	 * Automatically changes the reverse value when the tween repeats. Repeat must be enabled for this to have any effect
@@ -101,22 +117,6 @@ interface IGenericActuator {
 	 * @return		The current actuator instance
 	 */
 	public function snapping (?value:Null<Bool>):IGenericActuator;
-	
-	/**
-	 * Defines a function which will be called when the tween is paused
-	 * @param	handler		The function you would like to be called
-	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
-	 * @return		The current actuator instance
-	 */
-	public function onPause (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
-	
-	/**
-	 * Defines a function which will be called when the tween resumed after pause
-	 * @param	handler		The function you would like to be called
-	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
-	 * @return		The current actuator instance
-	 */
-	public function onResume (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
 	
 	
 	//private var properties:Dynamic;
