@@ -104,7 +104,8 @@ class MotionPathActuator<T> extends SimpleActuator<T, T> {
 			if (!initialized) {
 				
 				initialize ();
-				
+				start();
+
 			}
 			
 			if (!special) {
