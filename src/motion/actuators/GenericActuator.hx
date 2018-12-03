@@ -25,6 +25,8 @@ class GenericActuator<T> implements IGenericActuator {
 	private var _onRepeatParams:Array <Dynamic>;
 	private var _onResume:Dynamic;
 	private var _onResumeParams:Array <Dynamic>;
+	private var _onReverseComplete:Dynamic;
+	private var _onReverseCompleteParams:Array <Dynamic>;
 	private var _onStart:Dynamic;
 	private var _onStartParams:Array <Dynamic>;
 	private var _onUpdate:Dynamic;
@@ -156,7 +158,15 @@ class GenericActuator<T> implements IGenericActuator {
 			
 			change ();
 			
-			if (_onComplete != null) {
+			if (_reverse) {
+				
+				if (_onReverseComplete != null) {
+				
+					callMethod (_onReverseComplete, _onReverseCompleteParams);
+				
+				}
+				
+			} else if (_onComplete != null) {
 				
 				callMethod (_onComplete, _onCompleteParams);
 				
@@ -240,7 +250,7 @@ class GenericActuator<T> implements IGenericActuator {
 		
 		if (duration == 0) {
 			
-			complete ();
+			complete (true);
 			
 		}
 		
@@ -316,6 +326,37 @@ class GenericActuator<T> implements IGenericActuator {
 		} else {
 			
 			_onResumeParams = parameters;
+			
+		}
+		
+		return this;
+		
+	}
+	
+	
+	/**
+	 * Defines a function which will be called when the tween finishes playing reversed
+	 * @param	handler		The function you would like to be called
+	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
+	 * @return		The current actuator instance
+	 */
+	public function onReverseComplete (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
+		
+		_onReverseComplete = handler;
+		
+		if (parameters == null) {
+			
+			_onReverseCompleteParams = [];
+			
+		} else {
+			
+			_onReverseCompleteParams = parameters;
+			
+		}
+		
+		if (_reverse && duration == 0) {
+			
+			complete (true);
 			
 		}
 		

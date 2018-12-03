@@ -48,6 +48,7 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 	private var setVisible:Bool;
 	private var startTime:Float;
 	private var toggleVisible:Bool;
+	private var tweenPosition:Float;
 	
 	
 	public function new (target:T, duration:Float, properties:Dynamic) {
@@ -60,6 +61,7 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 		initialized = false;
 		setVisible = false;
 		toggleVisible = false;
+		tweenPosition = 0;
 		
 		startTime = __getPlatformTime ();
 		
@@ -193,6 +195,40 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 		active = true;
 		
 		Actuate.load (this);
+		
+		return this;
+		
+	}
+	
+	
+	/**
+	 * @inheritDoc
+	 */
+	public override function reverse (?value:Null<Bool>):GenericActuator<T> {
+		
+		super.reverse (value);
+		
+		if (active) {
+			
+			timeOffset += (2 * tweenPosition - 1) * duration;
+			
+		} else {
+
+			startTime = __getPlatformTime ();
+			timeOffset = startTime;
+			
+			if (actuators.indexOf (this) == -1) {
+				
+				actuators.push (this);
+				++actuatorsLength;
+				
+			}
+			
+			active = true;
+			
+			Actuate.load (this);
+			
+		}
 		
 		return this;
 		
@@ -474,7 +510,7 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 			var easing:Float;
 			var i:Int;
 			
-			var tweenPosition:Float = (currentTime - timeOffset) / duration;
+			tweenPosition = (currentTime - timeOffset) / duration;
 			
 			if (tweenPosition > 1) {
 				

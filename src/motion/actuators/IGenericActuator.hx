@@ -68,6 +68,14 @@ interface IGenericActuator {
 	public function onResume (handler:Dynamic, ?parameters:Array <Dynamic>):IGenericActuator;
 	
 	/**
+	 * Defines a function which will be called when the tween finishes playing reversed
+	 * @param	handler		The function you would like to be called
+	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
+	 * @return		The current actuator instance
+	 */
+	public function onReverseComplete (handler:Dynamic, parameters:Array <Dynamic> = null):IGenericActuator;
+
+	/**
 	 * Defines a function which will be called when the tween starts
 	 * @param	handler		The function you would like to be called
 	 * @param	parameters		Parameters you would like to pass to the handler function when it is called
