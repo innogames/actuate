@@ -237,16 +237,7 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onComplete (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onComplete = handler;
-		
-		if (parameters == null) {
-			
-			_onCompleteParams = [];
-			
-		} else {
-			
-			_onCompleteParams = parameters;
-			
-		}
+		_onCompleteParams = parameters;
 		
 		if (duration == 0) {
 			
@@ -268,16 +259,7 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onPause (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onPause = handler;
-		
-		if (parameters == null) {
-			
-			_onPauseParams = [];
-			
-		} else {
-			
-			_onPauseParams = parameters;
-			
-		}
+		_onPauseParams = parameters;
 		
 		return this;
 		
@@ -293,16 +275,7 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onRepeat (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onRepeat = handler;
-		
-		if (parameters == null) {
-			
-			_onRepeatParams = [];
-			
-		} else {
-			
-			_onRepeatParams = parameters;
-			
-		}
+		_onRepeatParams = parameters;
 		
 		return this;
 		
@@ -318,16 +291,7 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onResume (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onResume = handler;
-		
-		if (parameters == null) {
-			
-			_onResumeParams = [];
-			
-		} else {
-			
-			_onResumeParams = parameters;
-			
-		}
+		_onResumeParams = parameters;
 		
 		return this;
 		
@@ -343,17 +307,8 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onReverseComplete (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onReverseComplete = handler;
-		
-		if (parameters == null) {
+		_onReverseCompleteParams = parameters;
 			
-			_onReverseCompleteParams = [];
-			
-		} else {
-			
-			_onReverseCompleteParams = parameters;
-			
-		}
-		
 		if (_reverse && duration == 0) {
 			
 			complete (true);
@@ -374,16 +329,7 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onStart (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onStart = handler;
-		
-		if (parameters == null) {
-			
-			_onStartParams = [];
-			
-		} else {
-			
-			_onStartParams = parameters;
-			
-		}
+		_onStartParams = parameters;
 		
 		return this;
 		
@@ -399,16 +345,7 @@ class GenericActuator<T> implements IGenericActuator {
 	public function onUpdate (handler:Dynamic, parameters:Array <Dynamic> = null):GenericActuator<T> {
 		
 		_onUpdate = handler;
-		
-		if (parameters == null) {
-			
-			_onUpdateParams = [];
-			
-		} else {
-			
-			_onUpdateParams = parameters;
-			
-		}
+		_onUpdateParams = parameters;
 		
 		return this;
 		
