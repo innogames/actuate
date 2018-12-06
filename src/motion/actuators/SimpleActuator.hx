@@ -532,7 +532,7 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 				for (i in 0...detailsLength) {
 					
 					details = propertyDetails[i];
-					setProperty (details, details.start + (details.change * easing));
+					setProperty (details, details.getValueByEasing (easing));
 					
 				}
 				
@@ -572,7 +572,7 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 						
 					} else {
 						
-						endValue = details.start + (details.change * easing);
+						endValue = details.getValueByEasing (easing);
 						
 					}
 					
@@ -602,7 +602,15 @@ class SimpleActuator<T, U> extends GenericActuator<T> {
 						
 					}
 					
-					complete (true);
+					if (!_reflect && _reverse) {
+						
+						reveseComplete ();
+						
+					} else {
+						
+						complete (true);
+						
+					}
 					return;
 					
 				} else {

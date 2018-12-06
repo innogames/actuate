@@ -86,152 +86,6 @@ class MotionPathActuator<T> extends SimpleActuator<T, T> {
 	}
 	
 	
-	private override function update (currentTime:Float):Void {
-		
-		if (!paused) {
-			
-			var details:PropertyPathDetails<T>;
-			var easing:Float;
-			
-			var tweenPosition = (currentTime - timeOffset) / duration;
-			
-			if (tweenPosition > 1) {
-				
-				tweenPosition = 1;
-				
-			}
-			
-			if (!initialized) {
-				
-				initialize ();
-				start();
-
-			}
-			
-			if (!special) {
-				
-				easing = _ease.calculate (tweenPosition);
-				
-				for (details in propertyDetails) {
-					
-					if (details.isField) {
-						
-						Reflect.setField (details.target, details.propertyName, cast (details, PropertyPathDetails<Dynamic>).path.calculate (easing));
-						
-					} else {
-						
-						#if (haxe_209 || haxe3)
-						Reflect.setProperty (details.target, details.propertyName, cast (details, PropertyPathDetails<Dynamic>).path.calculate (easing));
-						#end
-						
-					}
-					
-				}
-				
-			} else {
-				
-				if (!_reverse) {
-					
-					easing = _ease.calculate (tweenPosition);
-					
-				} else {
-					
-					easing = _ease.calculate (1 - tweenPosition);
-					
-				}
-				
-				var endValue:Float;
-				
-				for (details in propertyDetails) {
-					
-					if (!_snapping) {
-						
-						if (details.isField) {
-							
-							Reflect.setField (details.target, details.propertyName, cast (details, PropertyPathDetails<Dynamic>).path.calculate (easing));
-							
-						} else {
-							
-							#if (haxe_209 || haxe3)
-							Reflect.setProperty (details.target, details.propertyName, cast (details, PropertyPathDetails<Dynamic>).path.calculate (easing));
-							#end
-							
-						}
-						
-					} else {
-						
-						if (details.isField) {
-							
-							Reflect.setField (details.target, details.propertyName, Math.round (cast (details, PropertyPathDetails<Dynamic>).path.calculate (easing)));
-							
-						} else {
-							
-							#if (haxe_209 || haxe3)
-							Reflect.setProperty (details.target, details.propertyName, Math.round (cast (details, PropertyPathDetails<Dynamic>).path.calculate (easing)));
-							#end
-							
-						}
-						
-						
-					}
-					
-				}
-				
-			}
-			
-			if (tweenPosition == 1) {
-				
-				if (_repeat == 0) {
-					
-					active = false;
-					
-					if (toggleVisible && getField (target, "alpha") == 0) {
-						
-						setField (target, "visible", false);
-						
-					}
-					
-					complete (true);
-					return;
-					
-				} else {
-					
-					if (_onRepeat != null) {
-						
-						callMethod (_onRepeat, _onRepeatParams);
-						
-					}
-					
-					if (_reflect) {
-						
-						_reverse = !_reverse;
-						
-					}
-					
-					startTime = currentTime;
-					timeOffset = startTime + _delay;
-					
-					if (_repeat > 0) {
-						
-						_repeat --;
-						
-					}
-					
-				}
-				
-			}
-			
-			if (sendChange) {
-				
-				change ();
-				
-			}
-			
-		}
-		
-	}
-	
-	
 }
 
 
@@ -251,6 +105,13 @@ class PropertyPathDetails<T> extends PropertyDetails<T> {
 		super (target, propertyName, 0, 0, isField);
 		
 		this.path = path;
+		
+	}
+	
+	
+	override public function getValueByEasing (easing: Float): Float {
+		
+		return path.calculate (easing);
 		
 	}
 	

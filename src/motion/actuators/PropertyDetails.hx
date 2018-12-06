@@ -22,4 +22,11 @@ class PropertyDetails<T> {
 	}
 	
 	
+	public function getValueByEasing (easing: Float): Float {
+		
+		return start + change * easing;
+		
+	}
+	
+	
 }

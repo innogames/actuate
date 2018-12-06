@@ -158,22 +158,13 @@ class GenericActuator<T> implements IGenericActuator {
 			
 			change ();
 			
-			if (_reverse) {
-				
-				if (_onReverseComplete != null) {
-				
-					callMethod (_onReverseComplete, _onReverseCompleteParams);
-				
-				}
-				
-			} else if (_onComplete != null) {
+			if (_onComplete != null) {
 				
 				callMethod (_onComplete, _onCompleteParams);
 				
 			}
-			
-		}
 		
+		}
 		
 	}
 	
@@ -426,6 +417,21 @@ class GenericActuator<T> implements IGenericActuator {
 		special = true;
 		
 		return this;
+		
+	}
+	
+	
+	private function reveseComplete ():Void {
+		
+		Actuate.unload (this);
+		
+		change ();
+		
+		if (_onReverseComplete != null) {
+		
+			callMethod (_onReverseComplete, _onReverseCompleteParams);
+		
+		}
 		
 	}
 	
