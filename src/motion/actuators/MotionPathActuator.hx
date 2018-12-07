@@ -86,6 +86,14 @@ class MotionPathActuator<T> extends SimpleActuator<T, T> {
 	}
 	
 	
+	// Smart rotation is not supported by MotionPathActuator
+	public override function smartRotation (?value:Null<Bool>):GenericActuator<T> { 
+		
+		return this;
+		
+	}
+	
+	
 }
 
 
