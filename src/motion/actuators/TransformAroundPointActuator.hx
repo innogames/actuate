@@ -39,15 +39,7 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 						if (Std.is (target, DisplayObject) && !isLocal) {
 							
 							var parent = Reflect.field (target, "parent");
-							if (parent == null) {
-								
-								transformPoint = new Point (point.x - originX, point.y - originY);
-								
-							} else {
-								
-								transformPoint = Reflect.callMethod (target,  Reflect.field (target, "globalToLocal"), [Reflect.callMethod (parent,  Reflect.field (parent, "localToGlobal"), [point])]);
-								
-							}
+							transformPoint = Reflect.callMethod (target,  Reflect.field (target, "globalToLocal"), [Reflect.callMethod (parent,  Reflect.field (parent, "localToGlobal"), [point])]);
 							
 						} else {
 						
