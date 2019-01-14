@@ -39,7 +39,7 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 						if (Std.is (target, DisplayObject) && !isLocal) {
 							
 							var displayObject: DisplayObject = cast (target, DisplayObject);
-							transformPoint = displayObject.globalToLocal(displayObject.parent.localToGlobal(point));
+							transformPoint = displayObject.globalToLocal (displayObject.parent.localToGlobal (point));
 							
 						} else {
 						
