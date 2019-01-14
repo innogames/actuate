@@ -8,7 +8,7 @@ import flash.geom.Matrix;
 import flash.geom.Point;
 
 
-class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
+class TransformAroundPointActuator<U> extends SimpleActuator<DisplayObject, U> {
 	
 	
 	private var transformMatrix:Matrix;
@@ -21,13 +21,12 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 	private var tweenedOffsetY:Float;
 	
 	
-	public function new (target:T, duration:Float, properties:Dynamic) {
+	public function new (target:DisplayObject, duration:Float, properties:Dynamic) {
 		
 		super (target, duration, properties);
 		transformedPoint = new Point ();
 		transformMatrix = new Matrix ();
 		
-		var target:DisplayObject = cast target;
 		originX = target.x;
 		originY = target.y;
 		
@@ -127,11 +126,8 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 	private inline function getTransformedPoint (result:Point): Void {
 		
 			transformMatrix.identity ();
-			var scaleX = getField (target, "scaleX");
-			var scaleY = getField (target, "scaleY");
-			var rotation = getField (target, "rotation");
-			transformMatrix.scale (scaleX, scaleY);
-			transformMatrix.rotate (rotation * Math.PI / 180);
+			transformMatrix.scale (target.scaleX, target.scaleY);
+			transformMatrix.rotate (target.rotation * Math.PI / 180);
 			
 			result.copyFrom (transformPoint);
 			transform (result, transformMatrix);
@@ -143,8 +139,8 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 			getTransformedPoint (transformedPoint);
 			subtract (initialTransformPoint, transformedPoint, transformedPoint);
 			
-			setField (target, "x", originX + transformedPoint.x + tweenedOffsetX);
-			setField (target, "y", originY + transformedPoint.y + tweenedOffsetY);
+			target.x = originX + transformedPoint.x + tweenedOffsetX;
+			target.y = originY + transformedPoint.y + tweenedOffsetY;
 			
 	}
 	
