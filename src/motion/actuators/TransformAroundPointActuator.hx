@@ -8,7 +8,7 @@ import flash.geom.Matrix;
 import flash.geom.Point;
 
 
-class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
+class TransformAroundPointActuator<U> extends SimpleActuator<DisplayObject, U> {
 	
 	
 	private var transformMatrix:Matrix;
@@ -21,13 +21,14 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 	private var tweenedOffsetY:Float;
 	
 	
-	public function new (target:T, duration:Float, properties:Dynamic) {
+	public function new (target:DisplayObject, duration:Float, properties:Dynamic) {
 		
 		super (target, duration, properties);
 		transformedPoint = new Point ();
 		transformMatrix = new Matrix ();
-		originX = getField (target, "x");
-		originY = getField (target, "y");
+		
+		originX = target.x;
+		originY = target.y;
 		
 		var transformAroundPointProps = Reflect.field (properties, "transformAroundPoint");
 		for (propertyName in Reflect.fields (transformAroundPointProps)) {
@@ -36,10 +37,9 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 				case "point": 
 						var point: Point = Reflect.field (transformAroundPointProps, "point");
 						var isLocal = Reflect.hasField (transformAroundPointProps, "pointIsLocal") && Reflect.field (transformAroundPointProps, "pointIsLocal");
-						if (Std.is (target, DisplayObject) && !isLocal) {
+						if (!isLocal) {
 							
-							var parent = Reflect.field (target, "parent");
-							transformPoint = Reflect.callMethod (target,  Reflect.field (target, "globalToLocal"), [Reflect.callMethod (parent,  Reflect.field (parent, "localToGlobal"), [point])]);
+							transformPoint = target.globalToLocal (target.parent.localToGlobal (point));
 							
 						} else {
 						
@@ -126,11 +126,8 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 	private inline function getTransformedPoint (result:Point): Void {
 		
 			transformMatrix.identity ();
-			var scaleX = getField (target, "scaleX");
-			var scaleY = getField (target, "scaleY");
-			var rotation = getField (target, "rotation");
-			transformMatrix.scale (scaleX, scaleY);
-			transformMatrix.rotate (rotation * Math.PI / 180);
+			transformMatrix.scale (target.scaleX, target.scaleY);
+			transformMatrix.rotate (target.rotation * Math.PI / 180);
 			
 			result.copyFrom (transformPoint);
 			transform (result, transformMatrix);
@@ -142,8 +139,8 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 			getTransformedPoint (transformedPoint);
 			subtract (initialTransformPoint, transformedPoint, transformedPoint);
 			
-			setField (target, "x", originX + transformedPoint.x + tweenedOffsetX);
-			setField (target, "y", originY + transformedPoint.y + tweenedOffsetY);
+			target.x = originX + transformedPoint.x + tweenedOffsetX;
+			target.y = originY + transformedPoint.y + tweenedOffsetY;
 			
 	}
 	
