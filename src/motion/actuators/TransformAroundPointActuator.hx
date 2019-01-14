@@ -26,8 +26,10 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 		super (target, duration, properties);
 		transformedPoint = new Point ();
 		transformMatrix = new Matrix ();
-		originX = getField (target, "x");
-		originY = getField (target, "y");
+		
+		var target:DisplayObject = cast target;
+		originX = target.x;
+		originY = target.y;
 		
 		var transformAroundPointProps = Reflect.field (properties, "transformAroundPoint");
 		for (propertyName in Reflect.fields (transformAroundPointProps)) {
@@ -36,10 +38,9 @@ class TransformAroundPointActuator<T, U> extends SimpleActuator<T, U> {
 				case "point": 
 						var point: Point = Reflect.field (transformAroundPointProps, "point");
 						var isLocal = Reflect.hasField (transformAroundPointProps, "pointIsLocal") && Reflect.field (transformAroundPointProps, "pointIsLocal");
-						if (Std.is (target, DisplayObject) && !isLocal) {
+						if (!isLocal) {
 							
-							var displayObject: DisplayObject = cast (target, DisplayObject);
-							transformPoint = displayObject.globalToLocal (displayObject.parent.localToGlobal (point));
+							transformPoint = target.globalToLocal (target.parent.localToGlobal (point));
 							
 						} else {
 						
